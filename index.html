@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sellos LOAMÉ · Mostrador</title>
+<meta name="theme-color" content="#3B2C22">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<script src="config.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<style>
+/* Mostrador: una columna en celular, dos en tableta/computadora. Colores de marca LOAMÉ. */
+:root{
+  --bg:#FFF8EF; --surface:#FFFFFF; --ink:#3B2C22; --muted:#6E5848; --line:#EEDFCC;
+  --brand:#3B2C22; --lemon:#F2D33A; --lemon-soft:#FBF1C4; --leaf:#4E6B3A; --leaf-soft:#E4EBDD; --peach:#F4E1CC; --danger:#A33A2B;
+  --display:"Josefin Sans",ui-sans-serif,system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#1C1612; --surface:#26201B; --ink:#F5ECE2; --muted:#C2B2A3; --line:#3A3029;
+  --brand:#F2D33A; --lemon:#F2D33A; --lemon-soft:#3D3415; --leaf:#9DBB86; --leaf-soft:#2A3324; --peach:#3A2E25; --danger:#E7836F; color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:16px;padding-block:20px 48px;display:grid;gap:18px}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.emb{width:44px;height:44px;border-radius:50%;background:var(--lemon);color:#3B2C22;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:20px;flex:none}
+h1{font-family:var(--display);font-size:clamp(22px,4.5vw,30px);font-weight:700;margin:0;letter-spacing:.04em;line-height:1.1}
+h1 small{display:block;font-family:var(--body);font-size:13px;letter-spacing:.02em;font-weight:400;color:var(--muted)}
+h2{font-family:var(--display);font-size:19px;font-weight:700;margin:0;letter-spacing:.02em}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.stat b{display:block;font-family:var(--display);font-size:26px;font-variant-numeric:tabular-nums}
+.stat small{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;align-items:start}
+.col{display:grid;gap:18px;min-width:0}
+@media (max-width:820px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px;min-width:0}
+.sub{color:var(--muted);margin:0;font-size:14px}
+label{font-size:13px;color:var(--muted);display:grid;gap:4px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%}
+input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{outline:2px solid var(--leaf);outline-offset:2px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.row>*{flex:1 1 160px;min-width:0}
+.row>button{flex:0 0 auto}
+button,.btn{font:inherit;font-weight:700;border-radius:10px;border:1px solid var(--ink);background:var(--ink);color:var(--bg);padding:11px 14px;cursor:pointer;text-decoration:none;display:inline-block;text-align:center}
+button.ghost,.btn.ghost{background:transparent;color:var(--ink)}
+button.lemon{background:var(--lemon);border-color:var(--lemon);color:#3B2C22}
+button:disabled{opacity:.45;cursor:not-allowed}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+.notice{border-radius:10px;padding:10px 12px;font-size:14px;background:var(--lemon-soft);color:var(--ink);overflow-wrap:anywhere}
+.notice.ok{background:var(--leaf-soft)}
+.notice.err{border-left:3px solid var(--danger)}
+.card{border-radius:20px;padding:20px;background:radial-gradient(120% 90% at 85% 0%,#F8EAD9 0%,#F4E1CC 45%,#EBCDAF 100%);color:#3B2C22;display:grid;gap:14px}
+.card .top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+.card .name{font-family:var(--display);font-size:24px;font-weight:700;overflow-wrap:anywhere}
+.card .meta{font-size:13px;color:#6E5848}
+.stamps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;max-width:420px}
+.st{aspect-ratio:1;border-radius:50%;border:2px dashed rgba(59,44,34,.3);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:clamp(14px,3.5vw,19px);color:rgba(59,44,34,.45)}
+.st.on{border:none;background:#F2D33A;color:#3B2C22}
+.st.gift{font-family:var(--body);font-size:clamp(9px,2.2vw,11px);text-transform:uppercase}
+.st.prize{border:2px solid #4E6B3A;color:#4E6B3A}
+.st.prize.on{background:#4E6B3A;color:#FFF8EF}
+.msg{border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:10px}
+.msg p{margin:0;white-space:pre-wrap;font-size:14px;overflow-wrap:anywhere}
+.list{display:grid;gap:6px;max-height:440px;overflow:auto}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--bg);cursor:pointer;text-align:left;color:var(--ink);font-weight:400}
+.item b{display:block;overflow-wrap:anywhere}
+.item small{color:var(--muted)}
+.chip{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--leaf-soft);color:var(--leaf);font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.chip.gold{background:var(--lemon-soft);color:var(--ink)}
+#qr{background:#fff;padding:10px;border-radius:12px;width:max-content;max-width:100%}
+#qr img,#qr canvas{display:block;max-width:100%;height:auto}
+.rules{margin:0;padding-left:18px;color:var(--muted);font-size:14px;display:grid;gap:4px}
+.empty{color:var(--muted);font-size:14px;margin:0}
+details summary{cursor:pointer;font-weight:700}
+footer{color:var(--muted);font-size:12px;text-align:center}
+@media (prefers-reduced-motion:no-preference){.st.on{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.8)}to{transform:scale(1)}}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><div class="emb" aria-hidden="true">L</div><h1>LOAMÉ · Tarjeta de sellos<small id="hSub">Mostrador</small></h1></div>
+    <button type="button" id="btnInstalar" class="ghost" hidden>Instalar en este dispositivo</button>
+  </header>
+
+  <div class="notice" id="aviso">Los registros se guardan en este dispositivo. Usa siempre el mismo celular o tableta en mostrador y descarga el respaldo cada semana.</div>
+
+  <section class="stats" aria-label="Resumen">
+    <div class="stat"><small>Clientes</small><b id="sClientes">0</b></div>
+    <div class="stat"><small>Sellos hoy</small><b id="sHoy">0</b></div>
+    <div class="stat"><small>Premios listos</small><b id="sListos">0</b></div>
+    <div class="stat"><small>Premios canjeados</small><b id="sCanjes">0</b></div>
+  </section>
+
+  <div class="grid">
+    <div class="col">
+      <section class="panel" aria-labelledby="hBuscar">
+        <h2 id="hBuscar">Buscar o registrar cliente</h2>
+        <form id="fBuscar" class="row">
+          <label for="tel">Teléfono del cliente (10 dígitos)
+            <input id="tel" inputmode="numeric" autocomplete="off" placeholder="9991234567" maxlength="14">
+          </label>
+          <button type="submit">Buscar</button>
+        </form>
+        <div id="feedback" hidden></div>
+        <form id="fRegistro" class="panel" style="padding:14px;background:var(--bg)" hidden>
+          <h2>Nuevo cliente</h2>
+          <div class="row">
+            <label for="nombre">Nombre<input id="nombre" autocomplete="off" placeholder="Nombre y apellido"></label>
+            <label for="origen">¿Cómo llegó?
+              <select id="origen">
+                <option>Post-Pilates</option><option>Run &amp; Brunch</option><option>Pick-up locales</option>
+                <option>Early Bird</option><option>Domingo Buena Vibra</option><option>Noche de Calabazas</option>
+                <option>Pasó por la plaza</option><option>Recomendación</option><option>Redes sociales</option>
+              </select>
+            </label>
+          </div>
+          <div class="actions"><button type="submit" id="btnRegistrar">Registrar</button><button type="button" class="ghost" id="cancelReg">Cancelar</button></div>
+        </form>
+      </section>
+
+      <section id="cliente" class="panel" hidden aria-live="polite">
+        <div class="card">
+          <div class="top"><div class="name" id="cNombre"></div><div class="meta" id="cTel"></div></div>
+          <div class="stamps" id="cStamps"></div>
+          <div class="meta" id="cReward" style="font-size:15px;font-weight:700;color:#3B2C22"></div>
+          <div class="meta" id="cMeta"></div>
+        </div>
+        <div class="actions">
+          <button id="btnSello">Agregar sello de hoy</button>
+          <button id="btnCanje" class="lemon" hidden>Canjear premio</button>
+          <button id="btnQuitar" class="ghost" type="button">Corregir: quitar un sello</button>
+        </div>
+        <div id="cFeedback" hidden></div>
+        <h2>Enviar al cliente</h2>
+        <div class="msg">
+          <p id="wText"></p>
+          <div class="actions">
+            <a class="btn" id="wLink" href="#" target="_blank" rel="noopener">Enviar por WhatsApp</a>
+            <a class="btn ghost" id="vLink" href="#" target="_blank" rel="noopener">Ver su tarjeta</a>
+            <button type="button" class="ghost" id="wCopy">Copiar mensaje</button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="panel" aria-labelledby="hLista">
+        <div class="row" style="align-items:center"><h2 id="hLista">Clientes</h2>
+          <label for="filtro" style="flex:1 1 180px"><span hidden>Filtrar</span><input id="filtro" placeholder="Filtrar por nombre o teléfono"></label></div>
+        <div class="list" id="lista"><p class="empty">Aún no hay clientes. Registra el primero con su teléfono.</p></div>
+      </section>
+
+      <section class="panel" aria-labelledby="hQR">
+        <h2 id="hQR">QR para mesas y cuenta</h2>
+        <p class="sub">El cliente lo escanea y le escribe al WhatsApp del negocio para pedir su tarjeta.</p>
+        <div id="qr" role="img" aria-label="Código QR al WhatsApp del negocio"></div>
+        <p class="sub" id="qrHint"></p>
+      </section>
+
+      <section class="panel" aria-labelledby="hDif">
+        <h2 id="hDif">Promociones y eventos</h2>
+        <p class="sub">Copia los teléfonos para una lista de difusión en WhatsApp Business. Solo reciben el mensaje quienes guardaron el número del negocio.</p>
+        <div class="actions"><button type="button" id="difCopy">Copiar teléfonos (<span id="difN">0</span>)</button></div>
+        <div id="difFb" hidden></div>
+      </section>
+
+      <section class="panel" aria-labelledby="hResp">
+        <h2 id="hResp">Respaldo y reportes</h2>
+        <p class="sub">Descarga el respaldo cada semana y guárdalo en tu correo o Drive. Con él pasas los registros a otro dispositivo.</p>
+        <div class="actions">
+          <button type="button" id="respBajar">Descargar respaldo</button>
+          <button type="button" class="ghost" id="csvBajar">Descargar Excel (CSV)</button>
+          <label class="btn ghost" for="respArchivo" style="display:inline-block">Restaurar respaldo<input type="file" id="respArchivo" accept=".json,application/json" hidden></label>
+        </div>
+        <div id="respFb" hidden></div>
+      </section>
+
+      <section class="panel" aria-labelledby="hReglas">
+        <details>
+          <summary id="hReglas">Reglas para el equipo</summary>
+          <ul class="rules" id="reglas"></ul>
+        </details>
+      </section>
+    </div>
+  </div>
+  <footer>Código abierto · Licencia MIT · Funciona sin cuenta y sin internet (el QR y las fuentes necesitan conexión la primera vez).</footer>
+</div>
+
+<script>
+const L=window.LOAME, META=L.meta, $=id=>document.getElementById(id);
+const LK='loame_sellos_v1';
+let clientes=[], actual=null;
+
+function leer(){try{const v=JSON.parse(localStorage.getItem(LK)||'{}');return Array.isArray(v.clientes)?v.clientes:[]}catch(e){return []}}
+function guardarTodo(){try{localStorage.setItem(LK,JSON.stringify({clientes,actualizado:new Date().toISOString()}));return true}catch(e){return false}}
+function aviso(el,txt,tipo){el.hidden=!txt;el.className='notice'+(tipo?' '+tipo:'');el.textContent=txt||''}
+const limpia=t=>String(t||'').replace(/\D/g,'').slice(-10);
+
+function urlTarjeta(){
+  if(/^https?:/.test(location.protocol)) return new URL('tarjeta.html',location.href).href.split('#')[0];
+  return L.urlTarjeta||'';
+}
+function linkDe(c){const u=urlTarjeta();return u?u+'#'+L.token(c):''}
+function barra(s){let b='';for(let i=1;i<=META;i++)b+=i<=s?'🟡':(i===META?'☕':'⚪');return b}
+function mensaje(c){
+  const s=Math.min(c.sellos||0,META), n=(c.nombre||'').split(' ')[0], link=linkDe(c);
+  const pie=`\n\nTu tarjeta LOAMÉ: ${barra(s)} ${s}/${META}`+(link?`\nVe tu tarjeta y muéstrala en caja: ${link}`:'')+`\n\nGuarda este número para recibir promociones y eventos.`;
+  if(s>=META)return `¡Hola ${n}! Completaste tu tarjeta de sellos en ${L.negocio}. En tu próxima visita tienes ${L.premio} de cortesía. ¡Te esperamos!`+pie;
+  if((c.totalVisitas||0)<=1)return `¡Hola ${n}! Bienvenido a ${L.negocio}. Ya tienes tu tarjeta de sellos digital`+(c.regalo?': te regalamos un sello de bienvenida y sumaste el de hoy.':'.')+` Al completar ${META} sellos te invitamos ${L.premio}.`+pie;
+  return `¡Hola ${n}! Gracias por visitarnos de nuevo. Te ${META-s===1?'falta 1 visita':'faltan '+(META-s)+' visitas'} para tu premio: ${L.premio}.`+pie;
+}
+
+function render(){
+  const d=L.hoy();
+  $('sClientes').textContent=clientes.length;
+  $('sHoy').textContent=clientes.filter(c=>c.ultimaVisita===d).length;
+  $('sListos').textContent=clientes.filter(c=>(c.sellos||0)>=META).length;
+  $('sCanjes').textContent=clientes.reduce((a,c)=>a+(c.canjes||0),0);
+  $('difN').textContent=clientes.length;
+  const f=$('filtro').value.trim().toLowerCase();
+  const vis=clientes.filter(c=>!f||(c.nombre||'').toLowerCase().includes(f)||(c.tel||'').includes(f)).sort((a,b)=>(b.ultimaVisita||'').localeCompare(a.ultimaVisita||''));
+  const Ls=$('lista');Ls.textContent='';
+  if(!vis.length){const p=document.createElement('p');p.className='empty';p.textContent=clientes.length?'Ningún cliente coincide con el filtro.':'Aún no hay clientes. Registra el primero con su teléfono.';Ls.append(p)}
+  vis.forEach(c=>{const b=document.createElement('button');b.type='button';b.className='item';
+    const t=document.createElement('div');const n=document.createElement('b');n.textContent=c.nombre||'Sin nombre';
+    const s=document.createElement('small');s.textContent=c.tel+' · última visita '+L.fecha(c.ultimaVisita)+' · '+(c.origen||'');t.append(n,s);
+    const ch=document.createElement('span');const lleno=(c.sellos||0)>=META;ch.className='chip'+(lleno?' gold':'');ch.textContent=lleno?'Premio listo':(c.sellos||0)+'/'+META;
+    b.append(t,ch);b.onclick=()=>{$('tel').value=c.tel;mostrar(c.tel);$('cliente').scrollIntoView({behavior:'smooth',block:'start'})};Ls.append(b)});
+  if(actual){const c=clientes.find(x=>x.tel===actual);if(c)pintar(c)}
+}
+
+function pintar(c){
+  $('cliente').hidden=false;$('fRegistro').hidden=true;
+  $('cNombre').textContent=c.nombre||'Sin nombre';
+  $('cTel').textContent=c.tel.replace(/(\d{3})(\d{3})(\d{4})/,'$1 $2 $3');
+  const S=$('cStamps');S.textContent='';const s=Math.min(c.sellos||0,META);
+  for(let i=1;i<=META;i++){const e=document.createElement('div');const gift=i===1&&c.regalo&&!(c.canjes>0);
+    e.className='st'+(i<=s?' on':'')+(i===META?' prize':'')+(gift&&i<=s?' gift':'');
+    e.textContent=i<=s?(gift?'Regalo':'✓'):(i===META?'☕':i);e.setAttribute('aria-label',i<=s?'Sello '+i+' completado':'Sello '+i+' pendiente');S.append(e)}
+  $('cReward').textContent=s>=META?'Premio listo: '+L.premio+'.':`${s} de ${META} sellos · faltan ${META-s} para el premio`;
+  $('cMeta').textContent=`Visitas: ${c.totalVisitas||0} · Premios canjeados: ${c.canjes||0} · Última visita: ${L.fecha(c.ultimaVisita)} · Llegó por: ${c.origen||'—'}`;
+  const yaHoy=c.ultimaVisita===L.hoy();
+  $('btnSello').disabled=yaHoy||s>=META;
+  $('btnSello').textContent=yaHoy?'Ya tiene sello de hoy':(s>=META?'Primero canjea el premio':'Agregar sello de hoy');
+  $('btnCanje').hidden=s<META;
+  $('btnQuitar').disabled=s<=0;
+  const m=mensaje(c);$('wText').textContent=m;
+  $('wLink').href='https://wa.me/'+L.lada+c.tel+'?text='+encodeURIComponent(m);
+  const lk=linkDe(c);$('vLink').hidden=!lk;if(lk)$('vLink').href=lk;
+}
+
+function mostrar(tel){
+  aviso($('feedback'),'');aviso($('cFeedback'),'');
+  const c=clientes.find(x=>x.tel===tel);
+  if(c){actual=tel;pintar(c);return}
+  actual=null;$('cliente').hidden=true;$('fRegistro').hidden=false;$('nombre').focus();
+  aviso($('feedback'),'Este número aún no tiene tarjeta. Regístralo abajo.','');
+}
+
+function guardar(c,msgOk,el){
+  const prev=clientes.slice();const i=clientes.findIndex(x=>x.tel===c.tel);if(i>=0)clientes[i]=c;else clientes.push(c);
+  if(!guardarTodo()){clientes=prev;aviso(el,'Este navegador no permite guardar datos (por ejemplo, en modo incógnito). Ábrelo en una ventana normal.','err');return false}
+  actual=c.tel;render();aviso(el,msgOk,'ok');return true;
+}
+
+$('fBuscar').addEventListener('submit',e=>{e.preventDefault();const t=limpia($('tel').value);
+  if(t.length!==10){aviso($('feedback'),'Escribe un teléfono de 10 dígitos.','err');return}mostrar(t)});
+$('cancelReg').onclick=()=>{$('fRegistro').hidden=true;aviso($('feedback'),'')};
+$('filtro').addEventListener('input',render);
+$('fRegistro').addEventListener('submit',e=>{e.preventDefault();
+  const tel=limpia($('tel').value),nombre=$('nombre').value.trim();
+  if(tel.length!==10){aviso($('feedback'),'Escribe un teléfono de 10 dígitos.','err');return}
+  if(!nombre){aviso($('feedback'),'Escribe el nombre del cliente.','err');return}
+  const d=L.hoy();const c={tel,nombre,origen:$('origen').value,sellos:L.selloRegalo?2:1,regalo:!!L.selloRegalo,totalVisitas:1,canjes:0,ultimaVisita:d,visitas:[d],creado:d};
+  if(guardar(c,L.selloRegalo?'Cliente registrado: sello de regalo más el sello de hoy.':'Cliente registrado con su primer sello.',$('feedback'))){$('nombre').value=''}
+});
+$('btnSello').onclick=()=>{const c0=clientes.find(x=>x.tel===actual);if(!c0)return;const d=L.hoy();if(c0.ultimaVisita===d)return;
+  const c={...c0,sellos:(c0.sellos||0)+1,totalVisitas:(c0.totalVisitas||0)+1,ultimaVisita:d,visitas:[...(c0.visitas||[]),d].slice(-60)};
+  guardar(c,c.sellos>=META?'Sello agregado. ¡Completó su tarjeta! Envíale el mensaje.':'Sello agregado. Envíale su tarjeta por WhatsApp.',$('cFeedback'))};
+$('btnCanje').onclick=()=>{const c0=clientes.find(x=>x.tel===actual);if(!c0)return;
+  guardar({...c0,sellos:0,canjes:(c0.canjes||0)+1,ultimoCanje:L.hoy()},'Premio canjeado. La tarjeta empieza una nueva ronda.',$('cFeedback'))};
+let confirmQuitar=false;
+$('btnQuitar').onclick=()=>{const c0=clientes.find(x=>x.tel===actual);if(!c0||!(c0.sellos>0))return;
+  if(!confirmQuitar){confirmQuitar=true;$('btnQuitar').textContent='Toca otra vez para confirmar';setTimeout(()=>{confirmQuitar=false;$('btnQuitar').textContent='Corregir: quitar un sello'},4000);return}
+  confirmQuitar=false;$('btnQuitar').textContent='Corregir: quitar un sello';
+  const v=(c0.visitas||[]).slice();const quitoHoy=c0.ultimaVisita===L.hoy();if(quitoHoy)v.pop();
+  guardar({...c0,sellos:c0.sellos-1,totalVisitas:Math.max(0,(c0.totalVisitas||1)-(quitoHoy?1:0)),visitas:v,ultimaVisita:quitoHoy?(v[v.length-1]||''):c0.ultimaVisita},'Se quitó un sello.',$('cFeedback'))};
+$('wCopy').onclick=async()=>{const t=$('wText').textContent;
+  try{await navigator.clipboard.writeText(t);aviso($('cFeedback'),'Mensaje copiado.','ok')}
+  catch(e){const r=document.createRange();r.selectNodeContents($('wText'));const s=getSelection();s.removeAllRanges();s.addRange(r);aviso($('cFeedback'),'Selecciona y copia el mensaje.','')}};
+
+$('difCopy').onclick=async()=>{const t=clientes.map(c=>'+'+L.lada+c.tel).join('\n');
+  if(!t){aviso($('difFb'),'Aún no hay clientes registrados.','');return}
+  try{await navigator.clipboard.writeText(t);aviso($('difFb'),'Teléfonos copiados. En WhatsApp Business: Chats › Nueva difusión, y agrega estos contactos.','ok')}
+  catch(e){aviso($('difFb'),t,'')}};
+
+function bajar(nombre,contenido,tipo){const b=new Blob([contenido],{type:tipo});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=nombre;document.body.append(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+$('respBajar').onclick=()=>{bajar('respaldo-sellos-loame-'+L.hoy()+'.json',JSON.stringify({app:'loame-sellos',version:1,fecha:new Date().toISOString(),clientes},null,1),'application/json');aviso($('respFb'),'Respaldo descargado. Guárdalo en tu correo o Drive.','ok')};
+$('csvBajar').onclick=()=>{const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+  const filas=[['Teléfono','Nombre','Llegó por','Sellos','Visitas','Premios canjeados','Última visita','Registro']].concat(clientes.map(c=>[c.tel,c.nombre,c.origen,c.sellos,c.totalVisitas,c.canjes,c.ultimaVisita,c.creado]));
+  bajar('clientes-loame-'+L.hoy()+'.csv','﻿'+filas.map(r=>r.map(q).join(',')).join('\r\n'),'text/csv');aviso($('respFb'),'Archivo para Excel descargado.','ok')};
+$('respArchivo').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{let v;try{v=JSON.parse(r.result)}catch(err){aviso($('respFb'),'El archivo no es un respaldo válido.','err');return}
+    if(!v||!Array.isArray(v.clientes)){aviso($('respFb'),'El archivo no es un respaldo válido.','err');return}
+    const m={};clientes.forEach(c=>m[c.tel]=c);v.clientes.forEach(c=>{if(c&&c.tel){const a=m[c.tel];if(!a||(c.ultimaVisita||'')>=(a.ultimaVisita||''))m[c.tel]=c}});
+    const prev=clientes;clientes=Object.values(m);
+    if(!guardarTodo()){clientes=prev;aviso($('respFb'),'Este navegador no permite guardar datos.','err');return}
+    render();aviso($('respFb'),'Respaldo restaurado: '+v.clientes.length+' clientes.','ok')};
+  r.readAsText(f);e.target.value=''};
+
+function pintaQR(){const box=$('qr');box.textContent='';const url='https://wa.me/'+L.lada+L.whatsapp+'?text='+encodeURIComponent('Hola LOAMÉ, quiero mi tarjeta de sellos');
+  if(typeof QRCode==='undefined'){box.hidden=true;$('qrHint').textContent='Sin conexión no se puede dibujar el QR. Enlace: '+url;return}
+  new QRCode(box,{text:url,width:180,height:180,colorDark:'#3B2C22',colorLight:'#ffffff'});box.hidden=false;
+  $('qrHint').textContent='Abre el WhatsApp del negocio ('+L.whatsapp.replace(/(\d{3})(\d{3})(\d{4})/,'$1 $2 $3')+'). Toma captura para imprimirlo.'}
+
+(function iniciar(){
+  $('hSub').textContent=L.negocio+' · Mostrador';
+  [ 'Un sello por visita con consumo, máximo uno por día.',
+    L.selloRegalo?'Al registrarse, el cliente recibe un sello de regalo además del de su visita.':'Al registrarse, el cliente recibe su primer sello.',
+    `Al completar ${META} sellos: ${L.premio} de cortesía.`,
+    'Al canjear, la tarjeta vuelve a cero y empieza otra ronda.',
+    'Después de cada sello, envía la tarjeta al cliente por WhatsApp.',
+    'Si te equivocas, usa “Corregir: quitar un sello”.'
+  ].forEach(t=>{const li=document.createElement('li');li.textContent=t;$('reglas').append(li)});
+  clientes=leer();render();
+  if(document.readyState==='complete')pintaQR();else window.addEventListener('load',pintaQR);
+  if(!urlTarjeta())aviso($('aviso'),'Los registros se guardan en este dispositivo. Para enviar a cada cliente el enlace de su tarjeta, publica la carpeta en internet (ver LEEME) o llena “urlTarjeta” en config.js.','');
+  let evt=null;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();evt=e;$('btnInstalar').hidden=false});
+  $('btnInstalar').onclick=async()=>{if(!evt)return;evt.prompt();await evt.userChoice;evt=null;$('btnInstalar').hidden=true};
+  if('serviceWorker' in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{});
+})();
+</script>
+</body>
+</html>

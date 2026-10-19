@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mi tarjeta LOAMÉ</title>
+<meta name="theme-color" content="#F4E1CC">
+<link rel="manifest" href="manifest-tarjeta.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mi LOAMÉ">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;600;700&family=Space+Mono:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<script src="config.js"></script>
+<style>
+/* Tarjeta del cliente con la marca LOAMÉ: durazno de los muros, amarillo limón de vasos y logo, verde de las enredaderas, café cálido. Un solo look claro, a propósito. */
+:root{--peach:#F4E1CC;--peach2:#EBCDAF;--lemon:#F2D33A;--lime:#C9C23A;--cocoa:#3B2C22;--cocoa2:#6E5848;--cream:#FFF8EF;--leaf:#4E6B3A;color-scheme:light}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--cream);color:var(--cocoa);font-family:"Atkinson Hyperlegible",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+.wrap{min-height:100vh;padding-inline:16px;padding-block:calc(env(safe-area-inset-top,0px) + 28px) calc(env(safe-area-inset-bottom,0px) + 40px);display:grid;justify-items:center;align-content:start;gap:16px}
+.card{width:100%;max-width:420px;border-radius:26px;padding:24px 22px 20px;background:radial-gradient(120% 90% at 85% 0%,#F8EAD9 0%,var(--peach) 45%,var(--peach2) 100%);box-shadow:0 18px 40px -18px rgba(59,44,34,.45),inset 0 0 0 1px rgba(255,255,255,.5);display:grid;gap:18px;position:relative;overflow:hidden}
+.card::after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;border:2px solid rgba(201,194,58,.45);pointer-events:none}
+.brand{display:flex;align-items:center;gap:12px}
+.emb{width:46px;height:46px;border-radius:50%;border:2.5px solid var(--lime);display:grid;place-items:center;font-family:"Josefin Sans",sans-serif;font-weight:700;color:var(--lime);font-size:20px;flex:none}
+.word{display:grid;line-height:1}
+.word b{font-family:"Josefin Sans",sans-serif;font-weight:600;font-size:30px;letter-spacing:.06em}
+.word small{font-family:"Space Mono",monospace;font-size:10.5px;letter-spacing:.32em;color:var(--cocoa2);margin-top:6px}
+.label{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--cocoa2);margin:0}
+.name{font-family:"Josefin Sans",sans-serif;font-size:24px;font-weight:600;margin:2px 0 0;overflow-wrap:anywhere}
+.stamps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.st{aspect-ratio:1;border-radius:50%;border:2px dashed rgba(59,44,34,.28);display:grid;place-items:center;font-family:"Josefin Sans",sans-serif;font-weight:700;font-size:17px;color:rgba(59,44,34,.42);background:rgba(255,248,239,.35)}
+.st.on{border:none;background:var(--lemon);color:var(--cocoa);box-shadow:inset 0 -3px 0 rgba(0,0,0,.08)}
+.st.gift{font-family:"Space Mono",monospace;font-size:9px;text-transform:uppercase}
+.st.prize{border:2px solid var(--leaf);color:var(--leaf);font-size:20px}
+.st.prize.on{background:var(--leaf);color:var(--cream)}
+.prog{display:grid;gap:8px}
+.bar{height:8px;border-radius:99px;background:rgba(59,44,34,.12);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--lime),var(--lemon));border-radius:99px;transition:width .6s ease}
+.msg{font-size:16px;font-weight:700;margin:0}
+.done{background:var(--leaf);color:var(--cream);border-radius:14px;padding:12px 14px;font-weight:700;margin:0}
+.pie{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:var(--cocoa2);border-top:1px dashed rgba(59,44,34,.25);padding-top:12px;margin:0}
+.info{width:100%;max-width:420px;display:grid;gap:12px}
+.box{background:#fff;border:1px solid #EEDFCC;border-radius:16px;padding:16px;display:grid;gap:6px}
+.box h2{margin:0;font-family:"Josefin Sans",sans-serif;font-size:18px}
+.box p{margin:0;font-size:14px;color:var(--cocoa2)}
+.btn{display:block;text-align:center;background:var(--cocoa);color:var(--cream);text-decoration:none;font-weight:700;border-radius:12px;padding:13px;border:none;font:inherit;font-weight:700;width:100%;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--cocoa);border:1.5px solid var(--cocoa)}
+.btn:focus-visible{outline:2px solid var(--leaf);outline-offset:2px}
+.vacia{max-width:420px;text-align:center;display:grid;gap:10px}
+.vacia h1{font-family:"Josefin Sans",sans-serif;font-size:24px;margin:0}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card" id="card" hidden>
+    <div class="brand"><div class="emb" aria-hidden="true">L</div><div class="word"><b>LOAMÉ</b><small>BUENA VIBRA CAFÉ</small></div></div>
+    <div><p class="label">Tarjeta de sellos</p><p class="name" id="nombre"></p></div>
+    <div class="stamps" id="stamps"></div>
+    <div class="prog"><div class="bar" aria-hidden="true"><i id="bar"></i></div><p class="msg" id="msg"></p></div>
+    <p class="done" id="done" hidden></p>
+    <p class="pie" id="pie"></p>
+  </div>
+
+  <div class="vacia" id="vacia" hidden>
+    <div class="brand" style="justify-content:center"><div class="emb" aria-hidden="true">L</div><div class="word" style="text-align:left"><b>LOAMÉ</b><small>BUENA VIBRA CAFÉ</small></div></div>
+    <h1 id="vTitulo">Aún no tienes tarjeta en este celular</h1>
+    <p id="vTexto" style="margin:0;color:var(--cocoa2)">Pide tu tarjeta de sellos en caja. Te la enviamos por WhatsApp con un enlace; ábrelo y aparecerá aquí.</p>
+  </div>
+
+  <div class="info">
+    <div class="box"><h2>Muéstrala en caja</h2><p>En cada visita te enviamos tu tarjeta actualizada por WhatsApp. Este celular guarda la más reciente.</p></div>
+    <div class="box" id="boxInstalar"><h2>Tenla a la mano</h2><p id="tInstalar">En iPhone: Compartir › Agregar a pantalla de inicio. En Android: menú ⋮ › Agregar a pantalla principal.</p><button class="btn ghost" id="btnInstalar" type="button" hidden>Agregar a mi celular</button></div>
+    <div class="box"><h2>Próximo en LOAMÉ</h2><p id="evento"></p></div>
+    <a class="btn" id="wa" href="#" target="_blank" rel="noopener">Escribir a LOAMÉ por WhatsApp</a>
+  </div>
+</div>
+<script>
+const L=window.LOAME, META=L.meta, $=id=>document.getElementById(id), K='loame_mi_tarjeta';
+function pinta(d){
+  const s=Math.max(0,Math.min(d.s||0,META));
+  $('card').hidden=false;$('vacia').hidden=true;
+  $('nombre').textContent=d.n||'Cliente LOAMÉ';
+  const S=$('stamps');S.textContent='';
+  for(let i=1;i<=META;i++){const e=document.createElement('div');const gift=i===1&&d.r;
+    e.className='st'+(i<=s?' on':'')+(i===META?' prize':'')+(gift&&i<=s?' gift':'');
+    e.textContent=i<=s?(gift?'Regalo':'✓'):(i===META?'☕':i);e.setAttribute('aria-label',i<=s?'Sello '+i+' completado':'Sello '+i+' pendiente');S.append(e)}
+  requestAnimationFrame(()=>{$('bar').style.width=(s/META*100)+'%'});
+  $('msg').textContent=s>=META?`${META} de ${META} sellos`:`${s} de ${META} sellos · te ${META-s===1?'falta 1 visita':'faltan '+(META-s)+' visitas'} para tu premio`;
+  $('done').hidden=s<META;$('done').textContent='¡Tarjeta completa! Tu '+L.premio+' te espera.';
+  $('pie').textContent='Socio ···'+(d.t||'----')+(d.f?' · Última visita '+L.fecha(d.f):'')+(d.c?' · Premios: '+d.c:'');
+}
+function vacia(t,x){$('card').hidden=true;$('vacia').hidden=false;if(t)$('vTitulo').textContent=t;if(x)$('vTexto').textContent=x}
+function cargar(){
+  let guardada=null;try{guardada=JSON.parse(localStorage.getItem(K)||'null')}catch(e){}
+  const h=location.hash;
+  if(h&&h.length>8){
+    const d=L.leeToken(h);
+    if(!d){if(guardada&&L.leeToken(guardada.token)){pinta(L.leeToken(guardada.token));return}
+      vacia('Este enlace de tarjeta no es válido','Pide tu tarjeta actualizada en caja.');return}
+    const g=guardada&&L.leeToken(guardada.token);
+    const masNueva=!g||(d.f||'')>(g.f||'')||((d.f||'')===(g.f||'')&&((d.c||0)>(g.c||0)||((d.c||0)===(g.c||0)&&(d.s||0)>=(g.s||0))));
+    if(masNueva){try{localStorage.setItem(K,JSON.stringify({token:h.slice(1),guardada:new Date().toISOString()}))}catch(e){}pinta(d)}
+    else pinta(g);
+    return}
+  if(guardada){const g=L.leeToken(guardada.token);if(g){pinta(g);return}}
+  vacia();
+}
+$('evento').textContent=L.proximoEvento+'. Guarda nuestro número para recibir promociones y eventos.';
+$('wa').href='https://wa.me/'+L.lada+L.whatsapp+'?text='+encodeURIComponent('Hola LOAMÉ');
+window.addEventListener('hashchange',cargar);cargar();
+let evt=null;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();evt=e;$('btnInstalar').hidden=false});
+$('btnInstalar').onclick=async()=>{if(!evt)return;evt.prompt();await evt.userChoice;evt=null;$('btnInstalar').hidden=true};
+if('serviceWorker' in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
