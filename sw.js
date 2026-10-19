@@ -1,6 +1,6 @@
 /* Guarda la app en el dispositivo para que abra sin internet. Cambia VERSION cuando actualices archivos. */
-const VERSION = 'loame-sellos-v1';
-const ARCHIVOS = ['./', 'index.html', 'tarjeta.html', 'config.js', 'manifest.webmanifest', 'manifest-tarjeta.webmanifest',
+const VERSION = 'loame-sellos-v2';
+const ARCHIVOS = ['./', 'index.html', 'tarjeta.html', 'menu.html', 'config.js', 'manifest.webmanifest', 'manifest-tarjeta.webmanifest',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-512-maskable.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(VERSION).then(c => c.addAll(ARCHIVOS)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== VERSION).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
